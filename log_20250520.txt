@@ -1,0 +1,11 @@
+2025-05-20 13:38:11 - ------------ NEW CONNECTION ------------
+2025-05-20 13:38:11 - Connected to Oracle using SQLAlchemy
+2025-05-20 13:38:11 - Connected to Oracle database.
+2025-05-20 13:38:14 - Query executed: SELECT * FROM Employee
+2025-05-20 13:38:14 - Oracle row count: 10
+2025-05-20 13:38:14 - Connected to MySQL database using SQLAlchemy
+2025-05-20 13:38:14 - Connected to MySQL database.
+2025-05-20 13:38:14 - Query executed: SELECT * FROM Employee
+2025-05-20 13:38:14 - MySQL row count: 10
+2025-05-20 13:38:14 - Row counts match between Oracle and MySQL.
+
