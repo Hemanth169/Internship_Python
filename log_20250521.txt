@@ -1,0 +1,28 @@
+2025-05-21 11:09:53 - ------------ NEW CONNECTION ------------
+2025-05-21 11:09:53 - Connected to Oracle using SQLAlchemy
+2025-05-21 11:09:53 - Connected to Oracle database.
+2025-05-21 11:09:53 - Query executed: SELECT * FROM Employee
+2025-05-21 11:09:53 - Oracle row count: 10
+2025-05-21 11:09:53 - Connected to MySQL database using SQLAlchemy
+2025-05-21 11:09:53 - Connected to MySQL database.
+2025-05-21 11:09:53 - Query executed: SELECT * FROM Employee
+2025-05-21 11:09:53 - MySQL row count: 10
+2025-05-21 11:09:53 - Row counts match between Oracle and MySQL.
+
+2025-05-21 11:09:57 - ------Data Transformation------
+2025-05-21 11:09:57 - Connected to Oracle using SQLAlchemy
+2025-05-21 11:09:57 - Oracle data transformation started
+2025-05-21 11:09:57 - Query executed: SELECT * FROM employee
+2025-05-21 11:09:57 - Starting data transformation...
+2025-05-21 11:09:57 - Renamed columns: {'e_NAME': 'Employee_name', 'e_ID': 'Employee_id', 'e_DATE': 'Joining_Date'}
+2025-05-21 11:09:59 - Data saved to table: Employee_table_transformed
+2025-05-21 11:09:59 -  Oracle transformation completed 
+
+2025-05-21 11:09:59 - Connected to MySQL database using SQLAlchemy
+2025-05-21 11:09:59 - MySQL data transformation started
+2025-05-21 11:09:59 - Query executed: SELECT * FROM employee
+2025-05-21 11:09:59 - Starting data transformation...
+2025-05-21 11:09:59 - Renamed columns: {'e_NAME': 'Employee_name', 'e_ID': 'Employee_id', 'e_DATE': 'Joining_Date'}
+2025-05-21 11:09:59 - Data saved to table: Employee_table_transformed
+2025-05-21 11:09:59 -  MySQL transformation completed 
+
