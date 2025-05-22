@@ -1,0 +1,56 @@
+2025-05-22 11:00:09 - ------------ NEW CONNECTION ------------
+2025-05-22 11:00:09 - Connected to Oracle using SQLAlchemy
+2025-05-22 11:00:09 - Connected to Oracle database.
+2025-05-22 11:00:12 - Query executed: SELECT * FROM Employee
+2025-05-22 11:00:12 - Oracle row count: 10
+2025-05-22 11:00:12 - Connected to MySQL database using SQLAlchemy
+2025-05-22 11:00:12 - Connected to MySQL database.
+2025-05-22 11:00:12 - Query executed: SELECT * FROM Employee
+2025-05-22 11:00:12 - MySQL row count: 10
+2025-05-22 11:00:12 - Row counts match between Oracle and MySQL.
+
+2025-05-22 11:00:13 - ------Data Transformation------
+2025-05-22 11:00:13 - Connected to Oracle using SQLAlchemy
+2025-05-22 11:00:13 - Oracle data transformation started
+2025-05-22 11:00:13 - Query executed: SELECT * FROM employee
+2025-05-22 11:00:13 - Starting data transformation...
+2025-05-22 11:00:13 - Renamed columns: {'e_NAME': 'Employee_name', 'e_ID': 'Employee_id', 'e_DATE': 'Joining_Date'}
+2025-05-22 11:00:15 - Data saved to table: Employee_table_transformed
+2025-05-22 11:00:15 -  Oracle transformation completed 
+
+2025-05-22 11:00:15 - Connected to MySQL database using SQLAlchemy
+2025-05-22 11:00:15 - MySQL data transformation started
+2025-05-22 11:00:15 - Query executed: SELECT * FROM employee
+2025-05-22 11:00:15 - Starting data transformation...
+2025-05-22 11:00:15 - Renamed columns: {'e_NAME': 'Employee_name', 'e_ID': 'Employee_id', 'e_DATE': 'Joining_Date'}
+2025-05-22 11:00:15 -  Failed to save data to table: Could not reflect: requested table(s) not available in Engine(mysql+pymysql://hemanth:***@192.168.200.91/hemanth_db): (Employee_table_transformed)
+2025-05-22 11:00:15 -  MySQL transformation completed 
+
+2025-05-22 11:00:19 - -------Oracle Procedure Calling-----------
+2025-05-22 11:00:19 - Connected to Oracle using SQLAlchemy
+2025-05-22 11:00:19 - Results are fetched check the output
+
+2025-05-22 11:00:19 - Department ID: 1456 - Status: ACTIVE
+2025-05-22 11:00:19 - Department ID: 1534 - Status: ACTIVE
+2025-05-22 11:00:19 - Department ID: 1609 - Status: NOT_ACTIVE
+2025-05-22 11:00:19 - Department ID: 1653 - Status: ACTIVE
+2025-05-22 11:00:19 - Department ID: 1742 - Status: NOT_ACTIVE
+2025-05-22 11:00:19 - Department ID: 1807 - Status: ACTIVE
+2025-05-22 11:00:19 - 
+
+2025-05-22 11:00:19 - Connected to Oracle using SQLAlchemy
+2025-05-22 11:00:19 - Connected to Oracle database.
+2025-05-22 11:00:19 - Active departments: [1456, 1534, 1653, 1807]
+2025-05-22 11:00:19 - Query executed: SELECT 
+                        e.E_ID,
+                        e.E_NAME,
+                        e.E_SALARY,
+                        e.E_DATE,
+                        e.DEPT_ID
+                    FROM 
+                        EMPLOYEE e
+                    WHERE 
+                        e.DEPT_ID IN (1456,1534,1653,1807)
+                    ORDER BY 
+                        e.E_ID 
+2025-05-22 11:00:19 - Employee data exported successfully to 'active_dept_data.csv'.
