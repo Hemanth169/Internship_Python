@@ -88,21 +88,43 @@ def save_data_mysql(df, table_name, engine_mysql):
 
 # calling stored procedure.
 def oracleprocedure():
-    engine_oracle= connect_oracle()
+    engine_oracle = connect_oracle()
     results = []
 
     try:
         with engine_oracle.connect() as conn:
             with conn.connection.cursor() as cursor:
-                # Fetch department IDs
                 df = pd.read_sql("SELECT dept_id FROM DEPARTMENT", conn) 
                 for d_id in df['dept_id']:
                     state = cursor.var(str)
-                    cursor.callproc('GET_STATUS', [d_id, state])
-                    results.append({'dept_id': d_id, 'STATUS': state.getvalue()})
+
+                    def run_proc():
+                        cursor.callproc('GET_STATUS', [d_id, state])
+                        return state.getvalue()
+
+                    try:
+                        status = retry_procedure(run_proc, retries=3, db_type="Oracle")
+                        results.append({'dept_id': d_id, 'STATUS': status})
+                    except Exception as e:
+                        print(f"Failed for dept_id={d_id}: {e}")
                 conn.connection.commit()
     except Exception as e:
         print("Error:", e)
     return results
+
+
+#Retrying stored procedure call function.
+def retry_procedure(call_fn, retries=3, delay=2, db_type=""):
+    attempts = 0
+    while attempts < min(retries, 3):
+        try:
+            return call_fn()
+        except Exception as e:
+            attempts += 1
+            write_log(f"[{db_type}] Attempt {attempts} failed: {e}")
+            time.sleep(delay)
+    raise Exception(f"[{db_type}] Procedure failed after {retries} attempts.")
+
+
 
 
