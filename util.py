@@ -86,3 +86,23 @@ def save_data_mysql(df, table_name, engine_mysql):
     except Exception as e:
         write_log(" Failed to save data to table: " + str(e))
 
+# calling stored procedure.
+def oracleprocedure():
+    engine_oracle= connect_oracle()
+    results = []
+
+    try:
+        with engine_oracle.connect() as conn:
+            with conn.connection.cursor() as cursor:
+                # Fetch department IDs
+                df = pd.read_sql("SELECT dept_id FROM DEPARTMENT", conn) 
+                for d_id in df['dept_id']:
+                    state = cursor.var(str)
+                    cursor.callproc('GET_STATUS', [d_id, state])
+                    results.append({'dept_id': d_id, 'STATUS': state.getvalue()})
+                conn.connection.commit()
+    except Exception as e:
+        print("Error:", e)
+    return results
+
+
