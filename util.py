@@ -86,7 +86,8 @@ def save_data_mysql(df, table_name, engine_mysql):
     except Exception as e:
         write_log(" Failed to save data to table: " + str(e))
 
-# calling stored procedure.
+# calling stored procedures of oracle and mysql.
+# oracle procedure call.
 def oracleprocedure():
     engine_oracle = connect_oracle()
     results = []
@@ -108,6 +109,35 @@ def oracleprocedure():
                     except Exception as e:
                         print(f"Failed for dept_id={d_id}: {e}")
                 conn.connection.commit()
+    except Exception as e:
+        print("Error:", e)
+    return results
+
+# mysql procedure call.
+def mysqlprocedure():
+    engine_mysql = connect_mysql()
+    results = []
+
+    try:
+        with engine_mysql.connect() as conn:
+            with conn.connection.cursor() as cursor:
+                cursor.execute("SELECT dept_id FROM department")
+                dept_ids = [row[0] for row in cursor.fetchall()]
+
+                for d_id in dept_ids:
+                    def run_proc():
+                        cursor.execute("SET @status = '';")
+                        cursor.execute(f"CALL Get_status({d_id}, @status);")
+                        cursor.execute("SELECT @status;")
+                        return cursor.fetchone()[0]
+
+                    try:
+                        status = retry_procedure(run_proc, retries=3, db_type="MySQL")
+                        results.append({'dept_id': d_id, 'STATUS': status})
+                    except Exception as e:
+                        print(f"Failed for dept_id={d_id}: {e}")
+
+            conn.commit()
     except Exception as e:
         print("Error:", e)
     return results
